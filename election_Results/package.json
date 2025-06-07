@@ -1,19 +1,30 @@
 {
   "name": "election-results",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "A Node.js server for managing and displaying election results.",
+  "main": "Election_Result_server.js",
   "scripts": {
     "start": "nodemon Election_Result_server.js",
+    "dev": "nodemon Election_Result_server.js",
     "build": "webpack --config webpack.config.js"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Your Name",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "mongoose": "^8.15.1",
-    "nodemon": "^3.1.10"
-  }
+    "mongoose": "^8.15.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "keywords": [
+    "election",
+    "results",
+    "express",
+    "node",
+    "api"
+  ]
 }

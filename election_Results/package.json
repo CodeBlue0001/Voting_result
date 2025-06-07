@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon Election_Result_server.js"
+    "start": "nodemon Election_Result_server.js",
+    "build": "webpack --config webpack.config.js"
   },
   "keywords": [],
   "author": "",

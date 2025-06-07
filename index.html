@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Voting Results</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: rgb(239, 216, 248);
+    }
+    h2 {
+      font-weight: bold;
+    }
+    .card {
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card-title {
+      font-weight: bold;
+    }
+    .vote-count {
+      font-size: 30px;
+      font-weight: bold;
+      color: #111;
+    }
+    #refreshBtn {
+      margin-top: 30px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #0074d9;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #refreshBtn:hover {
+      background-color: #005fa3;
+    }
+    #winnerMessage {
+      text-align: center;
+      font-size: 24px;
+      margin-top: 30px;
+      color: green;
+      font-weight: bold;
+    }
+    .popper {
+      font-size: 40px;
+      animation: pop 1s ease infinite;
+    }
+    @keyframes pop {
+      0% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(-10px); opacity: 0.7; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5 text-danger">Live Voting Results</h2>
+      <div class="row justify-content-center">
+
+        <!-- Party A Card -->
+        <div class="col-md-6 mb-4 d-flex align-items-stretch">
+          <div class="card w-100">
+            <img src="../assets/ankita.jpg" class="card-img-top" alt="Party A" />
+            <div class="card-body text-center">
+              <h4 class="card-title text-danger">&#9816; MIRACULER</h4>
+              <h5>Candidate Name- <b>Ankita Pan</b></h5>
+              <p><b>Miracle happens. Put your faith in the universe!</b></p>
+              <br><br>
+              <h6 class="card-subtitle mb-2 text-muted">Vote Count</h6>
+              <div class="vote-count" id="partyA">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Party B Card -->
+        <div class="col-md-6 mb-4 d-flex align-items-stretch">
+          <div class="card w-100">
+            <img src="../assets/sneha.jpg" class="card-img-top" alt="Party B" />
+            <div class="card-body text-center">
+              <h4 class="card-title text-danger">&#127925; TUNERS</h4>
+              <h5>Candidate Name- <b>Sneha Sadhu</b></h5>
+              <p><b>Every being has it's own unique music.</b></p>
+              <br><br>
+              <h6 class="card-subtitle mb-2 text-muted">Vote Count</h6>
+              <div class="vote-count" id="partyB">0</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="winnerMessage"></div>
+
+      <div class="text-center">
+        <button id="refreshBtn">Refresh Results</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    async function loadResults() {
+      const res = await fetch('http://localhost:3000/vote-results');
+      const data = await res.json();
+
+      if (data.success) {
+        const aVotes = data.data["Party A"];
+        const bVotes = data.data["Party B"];
+
+        document.getElementById("partyA").innerText = aVotes;
+        document.getElementById("partyB").innerText = bVotes;
+
+        const winnerMsg = document.getElementById("winnerMessage");
+        if (aVotes > bVotes) {
+          winnerMsg.innerHTML = `<div class="popper">🎉</div> Congratulations <span style="color:#d60000;">MIRACULER (Ankita Pan) </span>! You Win! <div class="popper">🎉</div>`;
+        } else if (bVotes > aVotes) {
+          winnerMsg.innerHTML = `<div class="popper">🎉</div> Congratulations <span style="color:#d60000;">TUNERS (Sneha Sadhu) </span>! You Win! <div class="popper">🎉</div>`;
+        } else {
+          winnerMsg.innerHTML = `<div style="color:orange;">🤝 It's a Tie!</div>`;
+        }
+      } else {
+        alert("Failed to fetch voting results.");
+      }
+    }
+
+    document.getElementById("refreshBtn").addEventListener("click", loadResults);
+    loadResults(); // Initial load
+  </script>
+</body>
+</html>

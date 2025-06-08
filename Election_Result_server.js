@@ -6,6 +6,10 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
+app.use(bodyParser.json());
+app.use('/uploads', express.static(uploadsDir));
+app.set('view engine', 'ejs');
+
 
 mongoose.connect(
   'mongodb+srv://User-devwithme:user-devwithme@api-checkup.it4iz.mongodb.net/official_website_db?retryWrites=true&w=majority',
@@ -18,9 +22,11 @@ const VoteSchema = new mongoose.Schema({
 }, { collection: 'votes' });
 
 const Vote = mongoose.model('Vote', VoteSchema);
-
+app.get('/',async(req,res)=>{
+  res.render('index.js');
+}
 // API: GET vote results
-app.get('/vote-results', async (req, res) => {
+app.get('/vote-result', async (req, res) => {
   try {
     const results = await Vote.aggregate([
       {

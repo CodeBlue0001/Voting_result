@@ -106,7 +106,7 @@
 
   <script>
     async function loadResults() {
-      const res = await fetch('http://localhost:3000/vote-results');
+      const res = await fetch('/vote-results');
       const data = await res.json();
 
       if (data.success) {
